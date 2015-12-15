@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <constant name="struts.devMode" value="true"/>
+    <package name="app" extends="struts-default">
+
+        <action name="">
+            <result>/index.jsp</result>
+        </action>
+
+        <action name="calls"
+                class="main.com.controllers.CallController"
+                method="execute">
+            <result name="success">/db.jsp</result>
+            <result name="failed">/failed.jsp</result>
+        </action>
+
+        <action name="addEvent"
+                class="main.com.controllers.AddEventAction">
+            <result type="stream">
+                <param name="contentType">text/html</param>
+                <param name="inputName">inputStream</param>
+            </result>
+        </action>
+
+        <action name="getEvents"
+                class="main.com.controllers.AjaxController">
+            <result type="stream">
+                <param name="contentType">text/html</param>
+                <param name="inputName">inputStream</param>
+            </result>
+        </action>
+
+    </package>
+</struts>

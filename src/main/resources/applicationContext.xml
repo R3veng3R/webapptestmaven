@@ -1,0 +1,45 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName">
+            <value>com.mysql.jdbc.Driver</value>
+        </property>
+
+        <property name="url">
+            <value>jdbc:mysql://localhost:3306/task</value>
+        </property>
+
+        <property name="username">
+            <value>root</value>
+        </property>
+
+        <property name="password">
+            <value></value>
+        </property>
+    </bean>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="main.com.mappers"/>
+    </bean>
+
+    <bean id="callMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="main.com.mappers.CallMapper"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+
+    <bean id="callService" class="main.com.models.CallService">
+        <property name="callMapper" ref="callMapper"/>
+    </bean>
+
+    <bean id="CallController" class="main.com.controllers.CallController" scope="prototype">
+        <property name="callService" ref="callService" />
+    </bean>
+</beans>
